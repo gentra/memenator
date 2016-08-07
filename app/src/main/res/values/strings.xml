@@ -4,4 +4,8 @@
     <string name="action_pick_photo">Create meme from your photo</string>
     <string name="module_editor">Editor</string>
     <string name="prompt_create_first_meme">Yo, create your first meme by tapping the Blue button</string>
+    <string name="module_memeviewer">Meme Viewer</string>
+    <string name="text_deleting">Deleting</string>
+    <string name="text_delete_success">Meme deleted</string>
+    <string name="text_share_to">Share to</string>
 </resources>

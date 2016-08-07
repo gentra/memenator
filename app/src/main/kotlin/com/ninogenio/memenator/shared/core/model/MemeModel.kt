@@ -7,4 +7,8 @@ interface MemeModel {
 
     var filePath: String
 
+    companion object {
+        class MemeModelImpl(override var filePath: String) : MemeModel
+    }
+
 }

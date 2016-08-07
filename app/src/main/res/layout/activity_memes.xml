@@ -57,6 +57,8 @@
         android:layout_gravity="bottom|end"
         app:fab_addButtonColorNormal="@color/accent"
         app:fab_addButtonColorPressed="@color/accentDark"
+        app:fab_labelsPosition="left"
+        app:fab_labelStyle="@style/menu_labels_style"
         app:fab_addButtonPlusIconColor="@color/textWhite"
         app:fab_expandDirection="up">
 
