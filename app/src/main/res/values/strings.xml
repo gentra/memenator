@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Memenator</string>
+    <string name="action_capture_image">Create meme from camera</string>
+    <string name="action_pick_photo">Create meme from your photo</string>
+    <string name="module_editor">Editor</string>
+    <string name="prompt_create_first_meme">Yo, create your first meme by tapping the Blue button</string>
 </resources>
