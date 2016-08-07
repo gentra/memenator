@@ -31,6 +31,11 @@ class MemeViewerActivity : AppCompatActivity(), MemeViewerView {
         fab_delete.onClick { presenter?.actionDelete() }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter?.finish()
+    }
+
     override fun displayImage(filePath: String) {
         Glide.with(this).load(filePath).asBitmap().into(object : SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {

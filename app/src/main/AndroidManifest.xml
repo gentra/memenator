@@ -26,13 +26,13 @@
             android:name=".editor.EditorActivity"
             android:label="@string/module_editor"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Black" />
 
         <activity
             android:name=".memeviewer.MemeViewerActivity"
             android:label="@string/module_editor"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Black" />
 
     </application>
 

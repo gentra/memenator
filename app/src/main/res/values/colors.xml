@@ -16,6 +16,8 @@
 
     <color name="textWhite">#FFFFFF</color>
 
+    <color name="black">#000</color>
+
     <color name="fabBackgroundBlack">#B2000000</color>
 
 </resources>

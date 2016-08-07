@@ -1,5 +1,6 @@
 package com.ninogenio.memenator.shared.core.interactor
 
+import android.graphics.Bitmap
 import com.ninogenio.memenator.shared.core.model.MemeModel
 import rx.Observable
 
@@ -12,7 +13,7 @@ interface MemeInteractor {
 
     fun view(meme: MemeModel)
 
-    fun save(meme: MemeModel): Observable<Boolean>
+    fun save(bitmap: Bitmap): Observable<MemeModel>
 
     fun delete(meme: MemeModel): Observable<Boolean>
 

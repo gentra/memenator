@@ -8,4 +8,11 @@
     <string name="text_deleting">Deleting</string>
     <string name="text_delete_success">Meme deleted</string>
     <string name="text_share_to">Share to</string>
+    <string name="constant_camera_save_dir_name" translatable="false">MemenatorCamera</string>
+    <string name="constant_picker_save_dir_name" translatable="false">MemenatorPhoto</string>
+    <string name="text_error_source_unidentified">Error: Image source unidentified</string>
+    <string name="prompt_top_text">Write top text</string>
+    <string name="prompt_bottom_text">Write bottom text</string>
+    <string name="text_error_meme_unmodified">You haven\'t modified the meme yet</string>
+    <string name="text_save_success">Meme saved</string>
 </resources>

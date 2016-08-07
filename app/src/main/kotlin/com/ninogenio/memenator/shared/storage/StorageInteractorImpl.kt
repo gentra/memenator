@@ -2,14 +2,14 @@ package com.ninogenio.memenator.shared.storage
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Point
 import android.os.Environment
-import android.view.WindowManager
 import com.ninogenio.memenator.R
 import com.ninogenio.memenator.shared.util.FileUtils
 import com.ninogenio.memenator.shared.util.TimeUtils
 import rx.Observable
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 /**
  * Created by gentra on 06/08/16.
@@ -36,12 +36,29 @@ class StorageInteractorImpl(val context: Context) : StorageInteractor {
         return resultNewPath
     }
 
-    override fun saveImage(bitmap: Bitmap, savePath: String) = Observable.create<Boolean> { subscriber ->
-        // TODO: save bitmap image to original file and thumbnail file
-        // Get screen width
-        val size = Point()
-        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(size)
-        val screenWidth = size.x
+    override fun saveImage(bitmap: Bitmap, savePath: String) = Observable.create<String> { subscriber ->
+        // TODO: save bitmap image to original size
+        val saveDir = File("${Environment.getExternalStorageDirectory().toString()}/${context.getString(R.string.app_name)}/$savePath/")
+        saveDir.mkdirs()
+
+        val newFile = File(saveDir.path, "${TimeUtils.getTimestamp(TimeUtils.FULL_TIME_FORMAT)}.jpg")
+        val fos = FileOutputStream(newFile)
+        try {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+        } catch (e: Exception) {
+            subscriber.onError(e)
+        } finally {
+            try {
+                fos.close()
+                subscriber.onNext(newFile.path)
+            } catch (e: IOException) {
+                subscriber.onError(e)
+            }
+        }
+
+        // TODO: save bitmap image to thumbnail size
+
+        subscriber.onCompleted()
     }
 
     override fun deleteFile(filePath: String) = Observable.create<Boolean> { subscriber ->

@@ -9,4 +9,9 @@
     <string name="text_deleting">Menghapus</string>
     <string name="text_delete_success">Meme dihapus</string>
     <string name="text_share_to">Bagikan ke</string>
+    <string name="text_error_source_unidentified">Error: Sumber gambar tidak dikenal</string>
+    <string name="prompt_top_text">Tulisan atas</string>
+    <string name="prompt_bottom_text">Tulisan bawah</string>
+    <string name="text_error_meme_unmodified">Kamu belum membuat meme-nya</string>
+    <string name="text_save_success">Meme berhasil disimpan</string>
 </resources>
