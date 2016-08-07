@@ -46,17 +46,23 @@ class EditorDrawer(private var bitmap: Bitmap, context: Context) {
         canvas.drawBitmap(bitmap, 0.toFloat(), 0.toFloat(), Paint())
 
         // Write text on top
-        writeOnTop(topText, textPaintOutline, canvas)
-        writeOnTop(topText, textPaint, canvas)
+        writeOnTop(topText,
+                breakTextToLines(topText, textPaintOutline, canvas),
+                textPaintOutline,
+                textPaint,
+                canvas)
 
         // Write text on bottom
-        writeOnBottom(bottomText, textPaintOutline, canvas)
-        writeOnBottom(bottomText, textPaint, canvas)
+        writeOnBottom(bottomText,
+                breakTextToLines(bottomText, textPaintOutline, canvas),
+                textPaintOutline,
+                textPaint,
+                canvas)
 
         subscriber.onNext(alteredBitmap)
     }
 
-    private fun writeOnTop(text: String, paint: Paint, canvas: Canvas) {
+    private fun breakTextToLines(text: String, paint: Paint, canvas: Canvas): List<String> {
         var wholeText = text
         val lines = ArrayList<String>()
         while (!wholeText.isEmpty()) {
@@ -64,34 +70,31 @@ class EditorDrawer(private var bitmap: Bitmap, context: Context) {
             lines.add(wholeText.substring(0, length))
             wholeText = wholeText.substring(length)
         }
+        return lines
+    }
 
+    private fun writeOnTop(text: String, lines: List<String>, textPaintOutline: Paint, textPaint: Paint, canvas: Canvas) {
         // Set position
         val bounds = Rect()
         var yoff = 3
         for (line in lines) {
-            canvas.drawText(line, xBound(paint.measureText(text)), 45 + yoff.toFloat(), paint)
-            paint.getTextBounds(line, 0, line.length, bounds)
+            canvas.drawText(line, xBound(textPaintOutline.measureText(text)), 45 + yoff.toFloat(), textPaintOutline)
+            canvas.drawText(line, xBound(textPaint.measureText(text)), 45 + yoff.toFloat(), textPaint)
+            textPaintOutline.getTextBounds(line, 0, line.length, bounds)
             yoff = bounds.height() + yoff + 10
         }
     }
 
-    private fun writeOnBottom(text: String, paint: Paint, canvas: Canvas) {
-        var wholeText = text
-        val lines = ArrayList<String>()
-        while (!wholeText.isEmpty()) {
-            val length = paint.breakText(wholeText, true, (canvas.width - 3).toFloat(), null)
-            lines.add(wholeText.substring(0, length))
-            wholeText = wholeText.substring(length)
-        }
-
+    private fun writeOnBottom(text: String, lines: List<String>, textPaintOutline: Paint, textPaint: Paint, canvas: Canvas) {
         // Set position
         val bounds = Rect()
         val yoff = canvas.height - 10
         var ySet = 1.toFloat()
         for (line in lines) {
             val yCordinate = yoff - ((lines.size - ySet) * 45)
-            canvas.drawText(line, xBound(paint.measureText(text)), yCordinate, paint)
-            paint.getTextBounds(line, 0, line.length, bounds)
+            canvas.drawText(line, xBound(textPaintOutline.measureText(text)), yCordinate, textPaintOutline)
+            canvas.drawText(line, xBound(textPaint.measureText(text)), yCordinate, textPaint)
+            textPaintOutline.getTextBounds(line, 0, line.length, bounds)
             ySet++
         }
     }
