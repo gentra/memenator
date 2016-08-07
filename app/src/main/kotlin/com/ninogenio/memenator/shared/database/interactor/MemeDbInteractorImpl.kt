@@ -14,8 +14,10 @@ class MemeDbInteractorImpl(context: Context) : MemeDbInteractor {
     private val db = DbFactory.create(context)
 
     override fun list() = Observable.create<List<MemeModel>> { subscriber ->
-        subscriber.onNext(db.where(MemeDbModel::class.java).findAll())
-        subscriber.onCompleted()
+        db.where(MemeDbModel::class.java).findAllAsync().addChangeListener { results ->
+            subscriber.onNext(results)
+            subscriber.onCompleted()
+        }
     }
 
     override fun save(meme: MemeModel) = Observable.create<Boolean> { subscriber ->
