@@ -22,16 +22,16 @@ class MemeInteractorImpl(private val context: Context) : MemeInteractor {
     }
 
     override fun save(bitmap: Bitmap): Observable<MemeModel> {
-        // TODO: Save to database
+        // Save to Storage then Database
         return StorageInteractorImpl(context).saveImage(bitmap, "Meme")
-                .map { filePath ->
+                .flatMap { filePath ->
                     val data: MemeModel = MemeModel.Companion.MemeModelImpl(filePath)
                     MemeDbInteractorImpl(context).save(data)
-                    data
                 }
     }
 
     override fun delete(meme: MemeModel): Observable<Boolean> {
+        // Delete from Storage and Database
         return StorageInteractorImpl(context).deleteFile(meme.filePath).withLatestFrom(MemeDbInteractorImpl(context).delete(meme), object : Func2<Boolean, Boolean, Boolean> {
 
             override fun call(storageDeleted: Boolean?, dbDeleted: Boolean?): Boolean {

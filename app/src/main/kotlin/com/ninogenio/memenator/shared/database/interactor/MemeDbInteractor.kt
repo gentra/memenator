@@ -1,6 +1,7 @@
 package com.ninogenio.memenator.shared.database.interactor
 
 import com.ninogenio.memenator.shared.core.model.MemeModel
+import com.ninogenio.memenator.shared.database.model.MemeDbModel
 import rx.Observable
 
 /**
@@ -10,7 +11,7 @@ interface MemeDbInteractor {
 
     fun list(): Observable<List<MemeModel>>
 
-    fun save(meme: MemeModel): Observable<Boolean>
+    fun save(meme: MemeModel): Observable<MemeDbModel>
     fun delete(meme: MemeModel): Observable<Boolean>?
 
 }

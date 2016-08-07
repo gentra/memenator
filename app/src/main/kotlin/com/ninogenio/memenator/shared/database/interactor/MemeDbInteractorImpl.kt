@@ -20,16 +20,15 @@ class MemeDbInteractorImpl(context: Context) : MemeDbInteractor {
         }
     }
 
-    override fun save(meme: MemeModel) = Observable.create<Boolean> { subscriber ->
+    override fun save(meme: MemeModel) = Observable.create<MemeDbModel> { subscriber ->
         try {
             db.beginTransaction()
             val data = MemeDbModel()
             data.filePath = meme.filePath
             db.copyToRealm(data)
             db.commitTransaction()
-            subscriber.onNext(true)
+            subscriber.onNext(data)
         } catch (e: IllegalArgumentException) {
-            subscriber.onNext(false)
             subscriber.onError(e)
         } finally {
             subscriber.onCompleted()
