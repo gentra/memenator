@@ -36,15 +36,24 @@ class StorageInteractorImpl(val context: Context) : StorageInteractor {
         return resultNewPath
     }
 
-    override fun saveImage(bitmap: Bitmap, savePath: String) = Observable.create<String> { subscriber ->
-        // TODO: save bitmap image to original size
+    override fun saveImage(bitmap: Bitmap, savePath: String, scaleMultiplier: Float) = Observable.create<String> { subscriber ->
+        val newBitmap: Bitmap
+        if (scaleMultiplier != 1f) { // Scale the size if requested
+            newBitmap = Bitmap.createScaledBitmap(bitmap,
+                    (bitmap.width * scaleMultiplier).toInt(),
+                    (bitmap.height * scaleMultiplier).toInt(),
+                    true)
+        } else {
+            newBitmap = bitmap
+        }
+
         val saveDir = File("${Environment.getExternalStorageDirectory().toString()}/${context.getString(R.string.app_name)}/$savePath/")
         saveDir.mkdirs()
 
         val newFile = File(saveDir.path, "${TimeUtils.getTimestamp(TimeUtils.FULL_TIME_FORMAT)}.jpg")
         val fos = FileOutputStream(newFile)
         try {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+            newBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)
         } catch (e: Exception) {
             subscriber.onError(e)
         } finally {
@@ -55,9 +64,6 @@ class StorageInteractorImpl(val context: Context) : StorageInteractor {
                 subscriber.onError(e)
             }
         }
-
-        // TODO: save bitmap image to thumbnail size
-
         subscriber.onCompleted()
     }
 

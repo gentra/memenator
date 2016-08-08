@@ -13,7 +13,7 @@ interface MemeInteractor {
 
     fun view(meme: MemeModel)
 
-    fun save(bitmap: Bitmap): Observable<MemeModel>
+    fun save(bitmap: Bitmap): Observable<MemeModel?>
 
     fun delete(meme: MemeModel): Observable<Boolean>
 

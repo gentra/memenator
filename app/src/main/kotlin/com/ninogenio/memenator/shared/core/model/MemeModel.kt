@@ -6,9 +6,12 @@ package com.ninogenio.memenator.shared.core.model
 interface MemeModel {
 
     var filePath: String
+    var thumbFilePath: String
 
     companion object {
-        class MemeModelImpl(override var filePath: String) : MemeModel
+        class MemeModelImpl(override var filePath: String) : MemeModel {
+            override var thumbFilePath: String = ""
+        }
     }
 
 }

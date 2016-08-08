@@ -11,6 +11,7 @@ import com.ninogenio.memenator.shared.database.interactor.MemeDbInteractorImpl
 import com.ninogenio.memenator.shared.storage.StorageInteractorImpl
 import org.jetbrains.anko.startActivity
 import rx.Observable
+import rx.functions.Func2
 
 /**
  * Created by gentra on 06/08/16.
@@ -23,13 +24,19 @@ class MemeInteractorImpl(private val context: Context) : MemeInteractor {
         context.startActivity<MemeViewerActivity>(MemeViewerActivity.EXTRA_FILE_PATH to meme.filePath)
     }
 
-    override fun save(bitmap: Bitmap): Observable<MemeModel> {
+    override fun save(bitmap: Bitmap): Observable<MemeModel?> {
         // Save to Storage then Database
-        return StorageInteractorImpl(context).saveImage(bitmap, "Meme")
-                .flatMap { filePath ->
-                    val data: MemeModel = MemeModel.Companion.MemeModelImpl(filePath)
-                    MemeDbInteractorImpl(context).save(data)
-                }
+        val storageInteractor = StorageInteractorImpl(context)
+        return storageInteractor.saveImage(bitmap, "Meme").zipWith(
+                storageInteractor.saveImage(bitmap, "MemeThumb", 0.9f), object : Func2<String, String, MemeModel?> {
+            override fun call(filePath: String?, thumbFilePath: String?): MemeModel? {
+                if (filePath == null) return null
+                val meme = MemeModel.Companion.MemeModelImpl(filePath)
+                if (thumbFilePath != null)
+                    meme.thumbFilePath = thumbFilePath
+                return meme
+            }
+        }).flatMap { meme -> if (meme == null) null else MemeDbInteractorImpl(context).save(meme) }
     }
 
     override fun delete(meme: MemeModel): Observable<Boolean> {

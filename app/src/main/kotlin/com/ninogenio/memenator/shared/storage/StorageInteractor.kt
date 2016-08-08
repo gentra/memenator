@@ -10,7 +10,7 @@ interface StorageInteractor {
 
     fun copyImage(filePath: String, savePath: String): Observable<String>
 
-    fun saveImage(bitmap: Bitmap, savePath: String): Observable<String>
+    fun saveImage(bitmap: Bitmap, savePath: String, scaleMultiplier: Float = 1f): Observable<String>
 
     fun deleteFile(filePath: String): Observable<Boolean>
 

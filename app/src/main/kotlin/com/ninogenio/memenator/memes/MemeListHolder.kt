@@ -15,7 +15,9 @@ import org.jetbrains.anko.onClick
 class MemeListHolder(val parent: ViewGroup, val listener: Listener) : RecyclerView.ViewHolder(createView(parent)) {
 
     fun bindView(position: Int, data: MemeModel) {
-        if (data.filePath.isNotEmpty())
+        if (data.thumbFilePath.isNotEmpty())
+            Glide.with(parent.context).load(data.thumbFilePath).centerCrop().into(itemView.iv)
+        else if (data.filePath.isNotEmpty())
             Glide.with(parent.context).load(data.filePath).centerCrop().into(itemView.iv)
 
         itemView.iv.onClick { listener.onImageClick(data) }

@@ -11,6 +11,7 @@ open class MemeDbModel : MemeModel, RealmObject() {
 
     var id: Int? = null
     override var filePath: String = ""
+    override var thumbFilePath: String = ""
     var createdAt: Date = Date()
 
 }

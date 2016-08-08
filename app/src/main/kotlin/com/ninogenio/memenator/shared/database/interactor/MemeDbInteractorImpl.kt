@@ -26,6 +26,7 @@ class MemeDbInteractorImpl(context: Context) : MemeDbInteractor {
             db.beginTransaction()
             val data = MemeDbModel()
             data.filePath = meme.filePath
+            data.thumbFilePath = meme.thumbFilePath
             db.copyToRealm(data)
             db.commitTransaction()
             subscriber.onNext(data)
