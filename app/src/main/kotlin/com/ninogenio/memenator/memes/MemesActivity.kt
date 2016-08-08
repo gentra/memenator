@@ -3,10 +3,12 @@ package com.ninogenio.memenator.memes
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.View
 import com.ninogenio.memenator.R
 import com.ninogenio.memenator.shared.core.model.MemeModel
+import com.ninogenio.memenator.shared.util.ColorUtils
 import kotlinx.android.synthetic.main.activity_memes.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.support.v4.onRefresh
@@ -26,8 +28,12 @@ class MemesActivity : AppCompatActivity(), MemesView {
 
         presenter = MemesPresenter(this, this)
 
+        srl.setColorSchemeColors(*ColorUtils.REFRESH_COLOR_RES_IDS)
         srl.onRefresh { presenter?.reload() }
-        rv.adapter = MemesAdapter(presenter?.data!!, object : MemeListHolder.Companion.Listener {
+
+        rv.setHasFixedSize(false)
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.adapter = MemesAdapter(presenter!!.data, object : MemeListHolder.Companion.Listener {
             override fun onImageClick(data: MemeModel) {
                 // TODO: Set up transition animation
                 presenter?.actionViewMeme(data)
