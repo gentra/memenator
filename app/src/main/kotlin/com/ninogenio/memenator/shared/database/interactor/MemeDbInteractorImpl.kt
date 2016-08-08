@@ -4,6 +4,7 @@ import android.content.Context
 import com.ninogenio.memenator.shared.core.model.MemeModel
 import com.ninogenio.memenator.shared.database.DbFactory
 import com.ninogenio.memenator.shared.database.model.MemeDbModel
+import io.realm.Sort
 import rx.Observable
 
 /**
@@ -14,7 +15,7 @@ class MemeDbInteractorImpl(context: Context) : MemeDbInteractor {
     private val db = DbFactory.create(context)
 
     override fun list() = Observable.create<List<MemeModel>> { subscriber ->
-        db.where(MemeDbModel::class.java).findAllAsync().addChangeListener { results ->
+        db.where(MemeDbModel::class.java).findAllSortedAsync("createdAt", Sort.DESCENDING).addChangeListener { results ->
             subscriber.onNext(results)
             subscriber.onCompleted()
         }
