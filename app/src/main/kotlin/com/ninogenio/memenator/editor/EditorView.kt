@@ -9,4 +9,5 @@ interface EditorView {
     fun setBitmap(bitmap: Bitmap)
     fun showMessage(text: String)
     fun setEditable(editable: Boolean)
+    fun setSeekbarProgress(progress: Int)
 }

@@ -7,6 +7,9 @@ import org.jetbrains.anko.windowManager
 import rx.Observable
 import java.util.*
 
+/*
+ * Some codes here referred from this open-sourced project: http://androidhelpandtips.blogspot.co.id/2016/02/meme-generator-android-app-source-code.html
+ */
 class EditorDrawer(private var bitmap: Bitmap, context: Context) {
 
     init {
@@ -28,18 +31,20 @@ class EditorDrawer(private var bitmap: Bitmap, context: Context) {
         bitmap = Bitmap.createScaledBitmap(bitmap, finalWidth.toInt(), finalHeight.toInt(), true)
     }
 
+    var textSize = 45f
+
     fun generateBitmap(topText: String, bottomText: String) = Observable.create<Bitmap> { subscriber ->
         val textPaint = Paint()
         textPaint.isAntiAlias = true
-        textPaint.textSize = 45f
+        textPaint.textSize = textSize
         textPaint.color = Color.WHITE
         textPaint.style = Paint.Style.FILL
         val textPaintOutline = Paint()
         textPaintOutline.isAntiAlias = true
-        textPaintOutline.textSize = 45f
+        textPaintOutline.textSize = textSize
         textPaintOutline.color = Color.BLACK
         textPaintOutline.style = Paint.Style.STROKE
-        textPaintOutline.strokeWidth = 4.toFloat()
+        textPaintOutline.strokeWidth = 5.toFloat()
 
         val alteredBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
         val canvas = Canvas(alteredBitmap)
@@ -78,8 +83,8 @@ class EditorDrawer(private var bitmap: Bitmap, context: Context) {
         val bounds = Rect()
         var yoff = 3
         for (line in lines) {
-            canvas.drawText(line, xBound(textPaintOutline.measureText(text)), 45 + yoff.toFloat(), textPaintOutline)
-            canvas.drawText(line, xBound(textPaint.measureText(text)), 45 + yoff.toFloat(), textPaint)
+            canvas.drawText(line, xBound(textPaintOutline.measureText(text)), textSize + yoff.toFloat(), textPaintOutline)
+            canvas.drawText(line, xBound(textPaint.measureText(text)), textSize + yoff.toFloat(), textPaint)
             textPaintOutline.getTextBounds(line, 0, line.length, bounds)
             yoff = bounds.height() + yoff + 10
         }
@@ -91,7 +96,7 @@ class EditorDrawer(private var bitmap: Bitmap, context: Context) {
         val yoff = canvas.height - 10
         var ySet = 1.toFloat()
         for (line in lines) {
-            val yCordinate = yoff - ((lines.size - ySet) * 45)
+            val yCordinate = yoff - ((lines.size - ySet) * textSize)
             canvas.drawText(line, xBound(textPaintOutline.measureText(text)), yCordinate, textPaintOutline)
             canvas.drawText(line, xBound(textPaint.measureText(text)), yCordinate, textPaint)
             textPaintOutline.getTextBounds(line, 0, line.length, bounds)

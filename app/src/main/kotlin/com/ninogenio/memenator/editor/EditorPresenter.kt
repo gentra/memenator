@@ -50,7 +50,7 @@ class EditorPresenter(private val context: Context, private val view: EditorView
                                     if (resource == null) return
                                     drawer = EditorDrawer(resource, context)
                                     view.setEditable(true)
-                                    actionChangeText("", "")
+                                    view.setSeekbarProgress(50) // Init the bitmap with text size of 50
                                 }
 
                             })
@@ -102,7 +102,8 @@ class EditorPresenter(private val context: Context, private val view: EditorView
                 }))
     }
 
-    fun actionChangeText(topText: String, bottomText: String) {
+    fun actionChangeText(topText: String, bottomText: String, textSize: Float) {
+        drawer?.textSize = textSize
         addSubscription(drawer!!.generateBitmap(topText, bottomText)
                 .subscribeOn(scheduler.backgroundThread())
                 .observeOn(scheduler.mainThread())

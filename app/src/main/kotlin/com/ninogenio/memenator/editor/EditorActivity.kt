@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.SeekBar
 import com.ninogenio.memenator.R
 import kotlinx.android.synthetic.main.activity_editor.*
 import org.jetbrains.anko.enabled
@@ -40,7 +41,7 @@ class EditorActivity : AppCompatActivity(), EditorView {
         et_top.addTextChangedListener(object : TextWatcher {
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                presenter?.actionChangeText(text.toString(), et_bottom.text.toString())
+                presenter?.actionChangeText(text.toString(), et_bottom.text.toString(), sb_text_size.progress.toFloat())
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -53,7 +54,7 @@ class EditorActivity : AppCompatActivity(), EditorView {
         et_bottom.addTextChangedListener(object : TextWatcher {
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                presenter?.actionChangeText(et_top.text.toString(), text.toString())
+                presenter?.actionChangeText(et_top.text.toString(), text.toString(), sb_text_size.progress.toFloat())
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -61,6 +62,19 @@ class EditorActivity : AppCompatActivity(), EditorView {
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
+        })
+
+        sb_text_size.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                presenter?.actionChangeText(et_top.text.toString(), et_bottom.text.toString(), progress.toFloat())
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+
         })
 
         fab_save.onClick { presenter?.actionSave() }
@@ -74,6 +88,10 @@ class EditorActivity : AppCompatActivity(), EditorView {
     override fun onDestroy() {
         super.onDestroy()
         presenter?.finish()
+    }
+
+    override fun setSeekbarProgress(progress: Int) {
+        sb_text_size.progress = progress
     }
 
     override fun showMessage(text: String) {
