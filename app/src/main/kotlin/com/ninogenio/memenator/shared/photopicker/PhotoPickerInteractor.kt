@@ -11,6 +11,6 @@ interface PhotoPickerInteractor {
 
     fun requestPhotoPicker(requestCode: Int, fragment: Fragment? = null)
 
-    fun handlePhotoPickerResult(requestCode: Int, resultCode: Int, data: Intent, savePath: String = ""): Observable<String>
+    fun handlePhotoPickerResult(requestCode: Int, resultCode: Int, data: Intent?, savePath: String = ""): Observable<String>
 
 }

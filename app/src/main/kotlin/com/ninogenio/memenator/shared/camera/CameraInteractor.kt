@@ -10,7 +10,7 @@ import rx.Observable
  */
 interface CameraInteractor {
     fun requestCamera(requestCode: Int, saveDirName: String, fragment: Fragment? = null)
-    fun handleCameraResult(requestCode: Int, resultCode: Int, data: Intent, savePath: String): Observable<String>
+    fun handleCameraResult(requestCode: Int, resultCode: Int, data: Intent?, savePath: String): Observable<String>
     fun saveInstanceState(outState: Bundle)
     fun restoreInstanceState(savedInstanceState: Bundle?)
 }

@@ -22,9 +22,9 @@ class PhotoPickerInteractorImpl(val context: Context) : PhotoPickerInteractor {
         this.requestCode = requestCode
     }
 
-    override fun handlePhotoPickerResult(requestCode: Int, resultCode: Int, data: Intent, savePath: String): Observable<String> {
-        if (requestCode == this.requestCode && resultCode == Activity.RESULT_OK && data.data != null) {
-            val filePath = FileUtils.getPath(context, data.data)
+    override fun handlePhotoPickerResult(requestCode: Int, resultCode: Int, data: Intent?, savePath: String): Observable<String> {
+        if (requestCode == this.requestCode && resultCode == Activity.RESULT_OK && data?.data != null) {
+            val filePath = FileUtils.getPath(context, data?.data!!)
             if (filePath != null && savePath != "") return StorageInteractorImpl(context).copyImage(filePath, savePath)
             else if (filePath != null) return Observable.just(filePath)
         }

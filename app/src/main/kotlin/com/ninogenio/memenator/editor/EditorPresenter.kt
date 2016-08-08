@@ -15,6 +15,7 @@ import com.ninogenio.memenator.shared.core.model.MemeModel
 import com.ninogenio.memenator.shared.photopicker.PhotoPickerInteractor
 import com.ninogenio.memenator.shared.photopicker.PhotoPickerInteractorImpl
 import com.ninogenio.memenator.shared.rx.Presenter
+import rx.Observable
 import rx.Subscriber
 import rx.functions.Action1
 
@@ -27,19 +28,20 @@ class EditorPresenter(private val context: Context, private val view: EditorView
     private var pickerInteractor: PhotoPickerInteractor? = null
 
     private var drawer: EditorDrawer? = null
-    private var latestBitmap: Bitmap? = null
+    private var latestBitmap: Bitmap? = null // bitmap to be saved to the Storage and DB
 
     init {
         cameraInteractor = CameraInteractorImpl(context)
         pickerInteractor = PhotoPickerInteractorImpl(context)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        addSubscription(cameraInteractor?.handleCameraResult(requestCode, resultCode, data, "Camera")
-                ?.mergeWith(pickerInteractor?.handlePhotoPickerResult(requestCode, resultCode, data))
-                ?.subscribeOn(scheduler.backgroundThread())
-                ?.observeOn(scheduler.mainThread())
-                ?.subscribe(object : Action1<String> {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // Capture the result from the camera or from the photo picker
+        addSubscription(Observable.just("").flatMap { result -> cameraInteractor?.handleCameraResult(requestCode, resultCode, data, "Camera") }
+                .flatMap { result -> if (result.isNullOrBlank()) pickerInteractor?.handlePhotoPickerResult(requestCode, resultCode, data) else Observable.just(result) }
+                .subscribeOn(scheduler.backgroundThread())
+                .observeOn(scheduler.mainThread())
+                .subscribe(object : Action1<String> {
                     // onNext
                     override fun call(imageFilePath: String?) {
                         if (!imageFilePath.isNullOrBlank())
@@ -52,6 +54,8 @@ class EditorPresenter(private val context: Context, private val view: EditorView
                                 }
 
                             })
+                        else
+                            (context as Activity).finish()
                     }
 
                 }, object : Action1<Throwable> {

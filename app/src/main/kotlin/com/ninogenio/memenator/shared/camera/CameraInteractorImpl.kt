@@ -37,7 +37,7 @@ class CameraInteractorImpl(val context: Context) : CameraInteractor {
         this.requestCode = requestCode
     }
 
-    override fun handleCameraResult(requestCode: Int, resultCode: Int, data: Intent, savePath: String): Observable<String> {
+    override fun handleCameraResult(requestCode: Int, resultCode: Int, data: Intent?, savePath: String): Observable<String> {
         if (requestCode == this.requestCode && resultCode == Activity.RESULT_OK) {
             val result = Observable.just(File(capturedImageUri.path).path)
             capturedImageUri = Uri.EMPTY
