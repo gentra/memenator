@@ -3,7 +3,9 @@ package com.ninogenio.memenator.memes
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.AbsListView
 import com.ninogenio.memenator.R
 import com.ninogenio.memenator.shared.core.model.MemeModel
 import com.ninogenio.memenator.shared.util.ColorUtils
@@ -35,6 +37,21 @@ class MemesActivity : AppCompatActivity(), MemesView {
             override fun onImageClick(data: MemeModel) {
                 // TODO: Set up transition animation
                 presenter?.actionViewMeme(data)
+            }
+        })
+        rv.addOnScrollListener(object : RecyclerView.OnScrollListener() { // Hide Floating Menu when scrolling
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy > 0 || dy < 0 && fam.isShown()) {
+                    fam.collapse()
+                    fam.visibility = View.GONE
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    fam.visibility = View.VISIBLE
+                }
+                super.onScrollStateChanged(recyclerView, newState)
             }
         })
 
