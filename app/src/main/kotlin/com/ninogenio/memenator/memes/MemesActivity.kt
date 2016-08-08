@@ -1,10 +1,8 @@
 package com.ninogenio.memenator.memes
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Gravity
 import android.view.View
 import com.ninogenio.memenator.R
 import com.ninogenio.memenator.shared.core.model.MemeModel
@@ -65,13 +63,12 @@ class MemesActivity : AppCompatActivity(), MemesView {
     }
 
     fun showEmptyView(empty: Boolean) {
-        val params = fam.layoutParams as CoordinatorLayout.LayoutParams
         if (empty) { // show empty view
             tv_empty.visibility = View.VISIBLE
-            params.gravity = Gravity.CENTER
+            fam.expand()
         } else { // dismiss empty view
             tv_empty.visibility = View.GONE
-            params.gravity = Gravity.END
+            fam.collapse()
         }
     }
 
