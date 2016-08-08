@@ -1,7 +1,7 @@
 # memenator
 Super simple Meme Generator app
 
-[Download on PlayStore](https://play.google.com/store/apps/details?id=com.ninogenio.memenator)
+[Download on PlayStore](https://play.google.com/store/apps/details?id=com.ninogenio.memenator) or [here](https://www.dropbox.com/s/tz3qmlzoukz2jzr/app-release.apk?dl=0)
 
 This app is designed with MVP (Model-View-Presenter) architecture. Important classes in the MVP architecture, in short, are below:
 - View, manager of the UI, its only responsibilty is handling and managing all the UI action, listener, and anything regarding UI
