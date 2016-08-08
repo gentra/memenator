@@ -22,7 +22,6 @@
   **[] $VALUES;
   public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 # ReactiveX
 -keep class rx.schedulers.Schedulers {
@@ -45,3 +44,7 @@
     long producerNode;
     long consumerNode;
 }
+-dontwarn sun.misc.Unsafe
+
+# Anko
+-dontwarn org.jetbrains.anko.internals.AnkoInternals

@@ -17,6 +17,7 @@ android {
 
     buildTypes {
         release {
+            shrinkResources = true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -33,6 +34,16 @@ android {
             catch (ignored) {
                 throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD, KEY_ALIAS and KEY_PASSWORD in gradle.properties.")
             }
+        }
+    }
+
+    // Reduce APK size because of Realm DB, split it for different architectures
+    // https://realm.io/docs/java/latest/#how-big-is-the-realm-library
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'x86', 'x86_64'
         }
     }
 
@@ -63,7 +74,6 @@ dependencies {
     // Anko: Android-Kotlin
     compile 'org.jetbrains.anko:anko-sdk23:0.9'
     compile 'org.jetbrains.anko:anko-support-v4:0.9'
-    compile 'org.jetbrains.anko:anko-appcompat-v7:0.9'
 
     // ReactiveX
     compile 'io.reactivex:rxjava:1.1.6'
