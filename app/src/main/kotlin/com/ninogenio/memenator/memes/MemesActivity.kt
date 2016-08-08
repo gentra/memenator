@@ -57,7 +57,10 @@ class MemesActivity : AppCompatActivity(), MemesView {
 
         fab_source_camera.onClick { presenter?.actionCaptureImage() }
         fab_source_picker.onClick { presenter?.actionPickPhoto() }
+    }
 
+    override fun onResume() {
+        super.onResume()
         presenter?.reload()
     }
 

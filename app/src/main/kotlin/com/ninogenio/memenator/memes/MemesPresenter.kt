@@ -18,7 +18,7 @@ class MemesPresenter(private val context: Context, private val view: MemesView) 
     val data = ArrayList<MemeModel>()
 
     fun reload() {
-        // Don't use background thread because of Realm restrictions. Use finAllAsync() instead
+        // Don't use background thread because of Realm restrictions. Use findAllAsync() instead
         // http://stackoverflow.com/questions/37045280/realm-observable-not-finishing-when-using-rx-java-amb-or-switchifempty
         addSubscription(interactor.list()
                 .observeOn(scheduler.mainThread())
@@ -36,6 +36,7 @@ class MemesPresenter(private val context: Context, private val view: MemesView) 
 
                     override fun onNext(memes: List<MemeModel>?) {
                         if (memes == null) onError(Throwable("Sorry, error: Data null"))
+                        if (memes!!.isNotEmpty() && data.equals(memes)) return // If no change in data list, don't refresh
                         data.clear()
                         data.addAll(memes!!)
                         view.refreshData()
