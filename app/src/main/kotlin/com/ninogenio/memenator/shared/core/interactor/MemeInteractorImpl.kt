@@ -1,14 +1,16 @@
 package com.ninogenio.memenator.shared.core.interactor
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import com.ninogenio.memenator.R
 import com.ninogenio.memenator.memeviewer.MemeViewerActivity
 import com.ninogenio.memenator.shared.core.model.MemeModel
 import com.ninogenio.memenator.shared.database.interactor.MemeDbInteractorImpl
 import com.ninogenio.memenator.shared.storage.StorageInteractorImpl
 import org.jetbrains.anko.startActivity
 import rx.Observable
-import rx.functions.Func2
 
 /**
  * Created by gentra on 06/08/16.
@@ -32,19 +34,22 @@ class MemeInteractorImpl(private val context: Context) : MemeInteractor {
 
     override fun delete(meme: MemeModel): Observable<Boolean> {
         // Delete from Storage and Database
-        return StorageInteractorImpl(context).deleteFile(meme.filePath).withLatestFrom(MemeDbInteractorImpl(context).delete(meme), object : Func2<Boolean, Boolean, Boolean> {
-
-            override fun call(storageDeleted: Boolean?, dbDeleted: Boolean?): Boolean {
-                if (storageDeleted == null || dbDeleted == null)
-                    return false
-                return storageDeleted && dbDeleted
-            }
-
-        })
+        return StorageInteractorImpl(context).deleteFile(meme.filePath).flatMap { deleted ->
+            if (deleted) // if file successfully deleted, delete the db
+                MemeDbInteractorImpl(context).delete(meme)
+            else // failed to delete
+                Observable.just(false)
+        }
     }
 
     override fun share(meme: MemeModel) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        context.startActivity(Intent.createChooser(
+                Intent().setAction(Intent.ACTION_SEND)
+                        .putExtra(Intent.EXTRA_STREAM, Uri.parse(meme.filePath))
+                        .setType("image/*")
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                , context.getString(R.string.text_share_to))
+        )
     }
 
 }

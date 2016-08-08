@@ -36,16 +36,18 @@ class MemeDbInteractorImpl(context: Context) : MemeDbInteractor {
     }
 
     override fun delete(meme: MemeModel) = Observable.create<Boolean> { subscriber ->
-        try {
-            db.beginTransaction()
-            db.where(MemeDbModel::class.java).equalTo("filePath", meme.filePath).findFirst().deleteFromRealm()
-            db.commitTransaction()
-            subscriber.onNext(true)
-        } catch (e: IllegalStateException) {
-            subscriber.onNext(false)
-            subscriber.onError(e)
-        } finally {
-            subscriber.onCompleted()
+        db.where(MemeDbModel::class.java).equalTo("filePath", meme.filePath).findFirstAsync().addChangeListener<MemeDbModel> { result ->
+            try {
+                db.beginTransaction()
+                result.deleteFromRealm()
+                db.commitTransaction()
+                subscriber.onNext(true)
+            } catch (e: IllegalStateException) {
+                subscriber.onNext(false)
+                subscriber.onError(e)
+            } finally {
+                subscriber.onCompleted()
+            }
         }
     }
 }

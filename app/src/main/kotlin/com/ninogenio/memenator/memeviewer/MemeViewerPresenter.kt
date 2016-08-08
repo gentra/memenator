@@ -2,8 +2,6 @@ package com.ninogenio.memenator.memeviewer
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import com.ninogenio.memenator.R
 import com.ninogenio.memenator.shared.core.interactor.MemeInteractorImpl
 import com.ninogenio.memenator.shared.core.model.MemeModel
@@ -15,20 +13,18 @@ import rx.Subscriber
  */
 class MemeViewerPresenter(private val context: Context, private val view: MemeViewerView, private val filePath: String) : Presenter() {
 
+    private val interactor = MemeInteractorImpl(context)
+    private val data = MemeModel.Companion.MemeModelImpl(filePath)
+
     fun actionShare() {
-        context.startActivity(Intent.createChooser(
-                Intent().setAction(Intent.ACTION_SEND)
-                        .putExtra(Intent.EXTRA_STREAM, Uri.parse(filePath))
-                        .setType("image/*")
-                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                , context.getString(R.string.text_share_to))
-        )
+        interactor.share(data)
     }
 
     fun actionDelete() {
-        addSubscription(MemeInteractorImpl(context)
-                .delete(MemeModel.Companion.MemeModelImpl(filePath))
-                .subscribeOn(scheduler.backgroundThread())
+        // Don't use background thread because of Realm restrictions
+        // http://stackoverflow.com/questions/37045280/realm-observable-not-finishing-when-using-rx-java-amb-or-switchifempty
+        addSubscription(interactor
+                .delete(data)
                 .observeOn(scheduler.mainThread())
                 .subscribe(object : Subscriber<Boolean>() {
 
