@@ -10,4 +10,5 @@ interface EditorView {
     fun showMessage(text: String)
     fun setEditable(editable: Boolean)
     fun setSeekbarProgress(progress: Int)
+    fun showLoading(loading: Boolean)
 }

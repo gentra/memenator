@@ -15,10 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_editor"
-        android:max="100"
-        android:background="@drawable/seekbar_background"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@drawable/seekbar_background"
+        android:max="100"
+        android:progress="49" />
 
     <RelativeLayout
         android:id="@+id/rl_editor"
@@ -73,5 +74,16 @@
             app:fab_size="normal" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/fabBackgroundBlack"
+        android:gravity="center"
+        android:text="@string/text_loading"
+        android:textColor="@color/textWhite"
+        android:textSize="@dimen/text_size_display_1"
+        android:visibility="gone" />
 
 </RelativeLayout>

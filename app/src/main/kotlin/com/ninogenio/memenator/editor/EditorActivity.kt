@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.SeekBar
 import com.ninogenio.memenator.R
 import kotlinx.android.synthetic.main.activity_editor.*
@@ -26,7 +27,7 @@ class EditorActivity : AppCompatActivity(), EditorView {
         setContentView(R.layout.activity_editor)
 
         presenter = EditorPresenter(this, this)
-        setEditable(false)
+        showLoading(true)
 
         // Check which Meme source to be used
         when (intent.extras.get(EXTRA_INT_SOURCE)) {
@@ -94,19 +95,28 @@ class EditorActivity : AppCompatActivity(), EditorView {
         sb_text_size.progress = progress
     }
 
+    override fun showLoading(loading: Boolean) {
+        if (loading)
+            tv_loading.visibility = View.VISIBLE
+        else
+            tv_loading.visibility = View.GONE
+
+        setEditable(!loading)
+    }
+
     override fun showMessage(text: String) {
         toast(text)
     }
 
     override fun setBitmap(bitmap: Bitmap) {
         iv.imageBitmap = bitmap
-        // TODO: Find best practice to set bitmap
     }
 
     override fun setEditable(editable: Boolean) {
         et_top.enabled = editable
         et_bottom.enabled = editable
         fab_save.isEnabled = editable
+        sb_text_size.isEnabled = editable
     }
 
     companion object {

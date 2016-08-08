@@ -14,4 +14,5 @@
     <string name="prompt_bottom_text">Tulisan bawah</string>
     <string name="text_error_meme_unmodified">Kamu belum membuat meme-nya</string>
     <string name="text_save_success">Meme berhasil disimpan</string>
+    <string name="text_loading">Tunggu bentar ya...</string>
 </resources>

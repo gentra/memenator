@@ -15,4 +15,5 @@
     <string name="prompt_bottom_text">Write bottom text</string>
     <string name="text_error_meme_unmodified">You haven\'t modified the meme yet</string>
     <string name="text_save_success">Meme saved</string>
+    <string name="text_loading">Please wait...</string>
 </resources>

@@ -49,7 +49,7 @@ class EditorPresenter(private val context: Context, private val view: EditorView
                                 override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
                                     if (resource == null) return
                                     drawer = EditorDrawer(resource, context)
-                                    view.setEditable(true)
+                                    view.showLoading(false)
                                     view.setSeekbarProgress(50) // Init the bitmap with text size of 50
                                 }
 
@@ -84,6 +84,11 @@ class EditorPresenter(private val context: Context, private val view: EditorView
                 .observeOn(scheduler.mainThread())
                 .subscribe(object : Subscriber<MemeModel>() {
 
+                    override fun onStart() {
+                        super.onStart()
+                        view.showLoading(true)
+                    }
+
                     override fun onNext(t: MemeModel?) {
                         if (t == null) return onError(Throwable("Save failed"))
                         view.showMessage(context.getString(R.string.text_save_success))
@@ -92,6 +97,7 @@ class EditorPresenter(private val context: Context, private val view: EditorView
                     }
 
                     override fun onCompleted() {
+                        view.showLoading(false)
                     }
 
                     override fun onError(e: Throwable?) {
