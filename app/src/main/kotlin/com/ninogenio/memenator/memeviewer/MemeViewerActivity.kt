@@ -2,6 +2,7 @@ package com.ninogenio.memenator.memeviewer
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.bumptech.glide.Glide
@@ -29,6 +30,24 @@ class MemeViewerActivity : AppCompatActivity(), MemeViewerView {
 
         fab_share.onClick { presenter?.actionShare() }
         fab_delete.onClick { presenter?.actionDelete() }
+
+        iv_image.onClick { // Hide the buttons when image is clicked
+            if (fab_share.isShown && fab_delete.isShown) {
+                fab_share.visibility = View.GONE
+                fab_delete.visibility = View.GONE
+            } else {
+                fab_share.visibility = View.VISIBLE
+                fab_delete.visibility = View.VISIBLE
+            }
+        }
+
+        Handler().postDelayed(object: Runnable{ // Hide the buttons a moment after opening the image
+            override fun run() {
+                fab_share.visibility = View.GONE
+                fab_delete.visibility = View.GONE
+            }
+
+        }, HIDE_BUTTON_DELAY)
     }
 
     override fun onDestroy() {
@@ -64,6 +83,8 @@ class MemeViewerActivity : AppCompatActivity(), MemeViewerView {
 
     companion object {
         val EXTRA_FILE_PATH = "${MemeViewerActivity::class.java.name}.filePath"
+
+        val HIDE_BUTTON_DELAY = 1500L // milliseconds, 1.5 seconds
     }
 
 }

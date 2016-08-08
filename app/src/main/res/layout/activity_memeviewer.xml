@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/iv_image"
@@ -17,11 +18,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:fab_colorNormal="@color/accent"
         app:fab_colorPressed="@color/accentDark"
+        app:fab_icon="@android:drawable/ic_menu_share"
         app:fab_size="normal" />
 
     <com.getbase.floatingactionbutton.FloatingActionButton
@@ -31,11 +30,12 @@
         android:layout_above="@+id/fab_share"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/margin_between_object"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginBottom="@dimen/margin_between_object_small"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         app:fab_colorNormal="@color/primary"
         app:fab_colorPressed="@color/primaryDark"
+        app:fab_icon="@android:drawable/ic_menu_delete"
         app:fab_size="mini" />
 
     <TextView
