@@ -16,7 +16,7 @@ class MemeListHolder(val parent: ViewGroup, val listener: Listener) : RecyclerVi
 
     fun bindView(position: Int, data: MemeModel) {
         if (data.filePath.isNotEmpty())
-            Glide.with(parent.context).load(data.filePath).into(itemView.iv)
+            Glide.with(parent.context).load(data.filePath).centerCrop().into(itemView.iv)
 
         itemView.iv.onClick { listener.onImageClick(data) }
     }

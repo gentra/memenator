@@ -48,4 +48,8 @@
     <!-- activity_memes -->
     <dimen name="emptyview_margin_top">150dp</dimen>
 
+    <!-- list_image -->
+    <dimen name="image_height">400dp</dimen>
+    <dimen name="image_divider">5dp</dimen>
+
 </resources>
