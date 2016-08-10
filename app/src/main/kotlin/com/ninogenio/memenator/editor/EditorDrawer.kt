@@ -10,7 +10,7 @@ import java.util.*
 /*
  * Some codes here referred from this open-sourced project: http://androidhelpandtips.blogspot.co.id/2016/02/meme-generator-android-app-source-code.html
  */
-class EditorDrawer(private var bitmap: Bitmap, context: Context) {
+class EditorDrawer(private var bitmap: Bitmap, private val context: Context) {
 
     init {
         // Scale down the bitmap image
@@ -36,15 +36,17 @@ class EditorDrawer(private var bitmap: Bitmap, context: Context) {
     fun generateBitmap(topText: String, bottomText: String) = Observable.create<Bitmap> { subscriber ->
         val textPaint = Paint()
         textPaint.isAntiAlias = true
+        textPaint.typeface = Typeface.createFromAsset(context.assets, "fonts/impact.ttf")
         textPaint.textSize = textSize
         textPaint.color = Color.WHITE
         textPaint.style = Paint.Style.FILL
         val textPaintOutline = Paint()
         textPaintOutline.isAntiAlias = true
+        textPaintOutline.typeface = Typeface.createFromAsset(context.assets, "fonts/impact.ttf")
         textPaintOutline.textSize = textSize
         textPaintOutline.color = Color.BLACK
         textPaintOutline.style = Paint.Style.STROKE
-        textPaintOutline.strokeWidth = 5.toFloat()
+        textPaintOutline.strokeWidth = 10.toFloat()
 
         val alteredBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
         val canvas = Canvas(alteredBitmap)

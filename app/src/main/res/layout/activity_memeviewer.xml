@@ -20,7 +20,7 @@
         android:layout_alignParentRight="true"
         app:fab_colorNormal="@color/accent"
         app:fab_colorPressed="@color/accentDark"
-        app:fab_icon="@android:drawable/ic_menu_share"
+        app:fab_icon="@drawable/ic_share_white_24px"
         app:fab_size="normal" />
 
     <com.getbase.floatingactionbutton.FloatingActionButton
@@ -35,7 +35,7 @@
         android:layout_marginRight="10dp"
         app:fab_colorNormal="@color/primary"
         app:fab_colorPressed="@color/primaryDark"
-        app:fab_icon="@android:drawable/ic_menu_delete"
+        app:fab_icon="@drawable/ic_delete_white_24px"
         app:fab_size="mini" />
 
     <TextView

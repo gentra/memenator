@@ -70,7 +70,7 @@
             android:layout_centerVertical="true"
             app:fab_colorNormal="@color/accent"
             app:fab_colorPressed="@color/accentDark"
-            app:fab_icon="@android:drawable/ic_menu_save"
+            app:fab_icon="@drawable/ic_save_white_24px"
             app:fab_size="normal" />
 
     </RelativeLayout>
